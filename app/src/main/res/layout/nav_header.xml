@@ -7,14 +7,12 @@
     android:background="@color/white"
     android:padding="24dp">
 
-    <TextView
-        android:id="@+id/tvHeaderTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="APo"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:textColor="@color/black"
+    <ImageView
+        android:id="@+id/imgNavLogo"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/logo_apo"
+        android:scaleType="fitCenter"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -25,9 +23,9 @@
         android:text="Elderly Activity Monitor"
         android:textSize="14sp"
         android:textColor="#757575"
-        android:layout_marginTop="4dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvHeaderTitle" />
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/imgNavLogo"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton
         android:id="@+id/btnCloseDrawer"
@@ -37,8 +35,7 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         app:tint="#757575"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="@id/tvHeaderSubtitle" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:layout_width="match_parent"
