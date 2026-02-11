@@ -40,7 +40,7 @@ class AlertHistoryActivity : AppCompatActivity() {
         }
 
         // 3. SETUP CALENDAR POPUP
-        findViewById<Button>(R.id.btnCalendar).setOnClickListener {
+        findViewById<View>(R.id.btnCalendar).setOnClickListener {
             showCustomCalendarDialog()
         }
     }
