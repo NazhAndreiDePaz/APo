@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,59 +16,58 @@ class DailyLogActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_daily_log)
 
-        // 1. Get Date from Intent (passed from previous screen)
-        val date = intent.getStringExtra("DATE_KEY") ?: "Today"
-        findViewById<TextView>(R.id.tvDateTitle).text = date
+        // 1. Get Date passed from previous screen
+        val dateString = intent.getStringExtra("DATE_KEY") ?: "Today"
+        findViewById<TextView>(R.id.tvDateHeader).text = dateString
 
-        // 2. Back Button
-        findViewById<View>(R.id.btnBack).setOnClickListener { finish() }
+        // 2. Setup Back Button
+        findViewById<ImageButton>(R.id.btnBack).setOnClickListener {
+            finish()
+        }
 
-        // 3. Setup Table Data (Mock Data based on wireframe)
-        val logs = listOf(
-            LogItem("Standing", "9:00 A.M."),
-            LogItem("Resting", "8:00 A.M."),
-            LogItem("Standing", "7:00 A.M."),
-            LogItem("Getting Up", "6:00 A.M."),
-            LogItem("Resting", "5:00 A.M."),
-            LogItem("Getting Up", "4:00 A.M."),
-            LogItem("Resting", "3:00 A.M.")
-        )
-
+        // 3. Setup Recycler View with Data
         val rv = findViewById<RecyclerView>(R.id.rvDailyLogs)
         rv.layoutManager = LinearLayoutManager(this)
-        rv.adapter = DailyLogAdapter(logs)
+        rv.adapter = DailyLogAdapter(generateDummyLogs())
+    }
+
+    // Generate Dummy Data matching your screenshot
+    private fun generateDummyLogs(): List<LogItem> {
+        return listOf(
+            LogItem("Sitting", "9:57 PM"),
+            LogItem("Standing", "9:08 PM"),
+            LogItem("Walking", "7:15 PM"),
+            LogItem("Resting", "6:09 PM"),
+            LogItem("Getting Up", "5:50 PM"),
+            LogItem("Sitting", "4:27 PM"),
+            LogItem("Resting", "3:51 PM"),
+            LogItem("Walking", "2:11 PM"),
+            LogItem("Getting Up", "1:18 PM")
+        )
     }
 }
 
-// Data Class
-data class LogItem(val activity: String, val time: String)
+// --- DATA MODEL ---
+data class LogItem(val name: String, val time: String)
 
-// Adapter
-class DailyLogAdapter(private val logs: List<LogItem>) : RecyclerView.Adapter<DailyLogAdapter.LogViewHolder>() {
+// --- ADAPTER ---
+class DailyLogAdapter(private val items: List<LogItem>) : RecyclerView.Adapter<DailyLogAdapter.LogHolder>() {
 
-    class LogViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val tvActivity: TextView = view.findViewById(android.R.id.text1)
-        val tvTime: TextView = view.findViewById(android.R.id.text2)
+    class LogHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val tvName: TextView = view.findViewById(R.id.tvActivityName)
+        val tvTime: TextView = view.findViewById(R.id.tvTime)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LogViewHolder {
-        // Using standard Android layout "simple_list_item_2" which has two text views
-        val view = LayoutInflater.from(parent.context).inflate(android.R.layout.simple_list_item_2, parent, false)
-        return LogViewHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LogHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_daily_log, parent, false)
+        return LogHolder(view)
     }
 
-    override fun onBindViewHolder(holder: LogViewHolder, position: Int) {
-        val item = logs[position]
-
-        // Activity Column
-        holder.tvActivity.text = item.activity
-        holder.tvActivity.textSize = 16f
-
-        // Time Column (Aligning it to look like a table)
+    override fun onBindViewHolder(holder: LogHolder, position: Int) {
+        val item = items[position]
+        holder.tvName.text = item.name
         holder.tvTime.text = item.time
-        holder.tvTime.textSize = 16f
-        holder.tvTime.textAlignment = View.TEXT_ALIGNMENT_VIEW_END
     }
 
-    override fun getItemCount() = logs.size
+    override fun getItemCount() = items.size
 }

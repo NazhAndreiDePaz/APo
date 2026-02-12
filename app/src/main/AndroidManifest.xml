@@ -38,6 +38,7 @@
         <activity android:name=".PlaybackSelectionActivity" />
         <activity android:name=".SavedSnapshotsActivity" />
         <activity android:name=".SavedRecordingsActivity" />
+        <activity android:name=".DailyLogActivity" />
 
     </application>
 
